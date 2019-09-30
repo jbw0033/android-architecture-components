@@ -53,9 +53,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     sourceSets {
         androidTest.java.srcDirs += "src/test-common/java"
         test.java.srcDirs += "src/test-common/java"
@@ -78,6 +75,7 @@ dependencies {
     implementation deps.navigation.fragment_ktx
     implementation deps.room.runtime
     implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
     implementation deps.lifecycle.java8
     implementation deps.retrofit.runtime
     implementation deps.retrofit.gson
@@ -101,7 +99,6 @@ dependencies {
     testImplementation deps.arch_core.testing
     testImplementation deps.mockito.core
 
-    androidTestImplementation deps.atsl.core
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.atsl.rules
 

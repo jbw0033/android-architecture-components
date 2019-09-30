@@ -16,17 +16,17 @@
 
 package com.android.example.paging.pagingwithnetwork.reddit.ui
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import com.android.example.paging.pagingwithnetwork.GlideApp
 import com.android.example.paging.pagingwithnetwork.R
 import com.android.example.paging.pagingwithnetwork.reddit.ServiceLocator
@@ -52,8 +52,21 @@ class RedditActivity : AppCompatActivity() {
         }
     }
 
-    private val model: SubRedditViewModel by viewModels {
-        object : ViewModelProvider.Factory {
+    private lateinit var model: SubRedditViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_reddit)
+        model = getViewModel()
+        initAdapter()
+        initSwipeToRefresh()
+        initSearch()
+        val subreddit = savedInstanceState?.getString(KEY_SUBREDDIT) ?: DEFAULT_SUBREDDIT
+        model.showSubreddit(subreddit)
+    }
+
+    private fun getViewModel(): SubRedditViewModel {
+        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 val repoTypeParam = intent.getIntExtra(KEY_REPOSITORY_TYPE, 0)
                 val repoType = RedditPostRepository.Type.values()[repoTypeParam]
@@ -62,17 +75,7 @@ class RedditActivity : AppCompatActivity() {
                 @Suppress("UNCHECKED_CAST")
                 return SubRedditViewModel(repo) as T
             }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reddit)
-        initAdapter()
-        initSwipeToRefresh()
-        initSearch()
-        val subreddit = savedInstanceState?.getString(KEY_SUBREDDIT) ?: DEFAULT_SUBREDDIT
-        model.showSubreddit(subreddit)
+        })[SubRedditViewModel::class.java]
     }
 
     private fun initAdapter() {

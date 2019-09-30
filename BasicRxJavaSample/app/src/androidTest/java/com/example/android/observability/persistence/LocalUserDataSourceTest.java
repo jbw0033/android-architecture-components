@@ -18,8 +18,7 @@ package com.example.android.observability.persistence;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
-
+import androidx.test.InstrumentationRegistry;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,7 +41,7 @@ public class LocalUserDataSourceTest {
     public void initDb() {
         // using an in-memory database because the information stored here disappears when the
         // process is killed
-        mDatabase = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(),
+        mDatabase = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
                 UsersDatabase.class)
                 // allowing main thread queries, just for testing
                 .allowMainThreadQueries()

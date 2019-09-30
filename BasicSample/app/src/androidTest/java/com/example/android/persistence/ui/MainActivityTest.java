@@ -15,30 +15,6 @@
  */
 package com.example.android.persistence.ui;
 
-import androidx.annotation.Nullable;
-import androidx.arch.core.executor.testing.CountingTaskExecutorRule;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.rule.ActivityTestRule;
-
-import com.example.android.persistence.AppExecutors;
-import com.example.android.persistence.EspressoTestUtil;
-import com.example.android.persistence.R;
-import com.example.android.persistence.db.AppDatabase;
-
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -46,6 +22,26 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
+import androidx.arch.core.executor.testing.CountingTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.annotation.Nullable;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.rule.ActivityTestRule;
+import com.example.android.persistence.AppExecutors;
+import com.example.android.persistence.EspressoTestUtil;
+import com.example.android.persistence.R;
+import com.example.android.persistence.db.AppDatabase;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class MainActivityTest {
 
@@ -58,7 +54,7 @@ public class MainActivityTest {
 
     public MainActivityTest() {
         // delete the database
-        ApplicationProvider.getApplicationContext().deleteDatabase(AppDatabase.DATABASE_NAME);
+        InstrumentationRegistry.getTargetContext().deleteDatabase(AppDatabase.DATABASE_NAME);
     }
 
     @Before
@@ -70,7 +66,7 @@ public class MainActivityTest {
     @Before
     public void waitForDbCreation() throws Throwable {
         final CountDownLatch latch = new CountDownLatch(1);
-        final LiveData<Boolean> databaseCreated = AppDatabase.getInstance(ApplicationProvider.getApplicationContext(), new AppExecutors()).getDatabaseCreated();
+        final LiveData<Boolean> databaseCreated = AppDatabase.getInstance(InstrumentationRegistry.getTargetContext(), new AppExecutors()).getDatabaseCreated();
         mActivityRule.runOnUiThread(new Runnable() {
 
             @Override

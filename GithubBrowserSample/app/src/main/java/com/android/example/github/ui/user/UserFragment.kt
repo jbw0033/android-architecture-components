@@ -27,9 +27,9 @@ import androidx.core.os.postDelayed
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
@@ -58,9 +58,7 @@ class UserFragment : Fragment(), Injectable {
     var binding by autoCleared<UserFragmentBinding>()
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
-    private val userViewModel: UserViewModel by viewModels {
-        viewModelFactory
-    }
+    private lateinit var userViewModel: UserViewModel
     private val params by navArgs<UserFragmentArgs>()
     private var adapter by autoCleared<RepoListAdapter>()
     private var handler = Handler(Looper.getMainLooper())
@@ -104,6 +102,8 @@ class UserFragment : Fragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        userViewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(UserViewModel::class.java)
         userViewModel.setLogin(params.login)
         binding.args = params
 

@@ -16,14 +16,15 @@
 
 package paging.android.example.com.pagingsample
 
-import android.os.Bundle
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.lifecycle.ViewModelProviders
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -33,7 +34,9 @@ import kotlinx.android.synthetic.main.activity_main.*
  * is updated automatically using paging components.
  */
 class MainActivity : AppCompatActivity() {
-    private val viewModel by viewModels<CheeseViewModel>()
+    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProviders.of(this).get(CheeseViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

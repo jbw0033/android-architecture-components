@@ -16,17 +16,18 @@
 
 package com.example.android.persistence.migrations;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import static com.example.android.persistence.migrations.UsersDatabase.MIGRATION_1_2;
 
-import androidx.room.Room;
-import androidx.room.testing.MigrationTestHelper;
+import static org.junit.Assert.assertEquals;
+
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.room.Room;
+import androidx.room.testing.MigrationTestHelper;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,9 +35,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-
-import static com.example.android.persistence.migrations.UsersDatabase.MIGRATION_1_2;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test the migration from database database version 1 to version 2.
@@ -62,7 +60,7 @@ public class MigrationTest {
     public void setUp() throws Exception {
         // To test migrations from version 1 of the database, we need to create the database
         // with version 1 using SQLite API
-        mSqliteTestDbHelper = new SqliteTestDbOpenHelper(ApplicationProvider.getApplicationContext(),
+        mSqliteTestDbHelper = new SqliteTestDbOpenHelper(InstrumentationRegistry.getTargetContext(),
                 TEST_DB_NAME);
         // We're creating the table for every test, to ensure that the table is in the correct state
         SqliteDatabaseTestHelper.createTable(mSqliteTestDbHelper);
@@ -108,7 +106,7 @@ public class MigrationTest {
     }
 
     private UsersDatabase getMigratedRoomDatabase() {
-        UsersDatabase database = Room.databaseBuilder(ApplicationProvider.getApplicationContext(),
+        UsersDatabase database = Room.databaseBuilder(InstrumentationRegistry.getTargetContext(),
                 UsersDatabase.class, TEST_DB_NAME)
                 .addMigrations(MIGRATION_1_2)
                 .build();

@@ -86,6 +86,7 @@ android {
 dependencies {
     //Support libraries
     implementation deps.support.app_compat
+    implementation deps.support.v4
     implementation deps.support.design
     implementation deps.room.runtime
     annotationProcessor deps.room.compiler
@@ -112,7 +113,9 @@ dependencies {
     androidTestImplementation deps.espresso.intents
 
     // Resolve conflicts between main and test APK:
+    // Resolve conflicts between main and test APK:
     androidTestImplementation deps.support.annotations
+    androidTestImplementation deps.support.v4
     androidTestImplementation deps.support.app_compat
     androidTestImplementation deps.support.design
 }
