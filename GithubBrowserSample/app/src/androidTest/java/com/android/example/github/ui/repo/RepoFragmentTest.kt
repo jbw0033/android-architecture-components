@@ -16,10 +16,11 @@
 
 package com.android.example.github.ui.repo
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.databinding.DataBindingComponent
 import androidx.annotation.StringRes
-import androidx.test.InstrumentationRegistry
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -208,7 +209,7 @@ class RepoFragmentTest {
     }
 
     private fun getString(@StringRes id: Int, vararg args: Any): String {
-        return InstrumentationRegistry.getTargetContext().getString(id, *args)
+        return ApplicationProvider.getApplicationContext<Context>().getString(id, *args)
     }
 
     class TestRepoFragment : RepoFragment() {

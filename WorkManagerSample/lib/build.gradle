@@ -17,6 +17,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -27,7 +31,6 @@ dependencies {
     implementation deps.support.app_compat
     implementation deps.support.cardview
     implementation deps.support.design
-    implementation deps.support.v4
     implementation deps.constraint_layout
     implementation deps.retrofit.runtime
     implementation deps.retrofit.gson
@@ -36,4 +39,3 @@ dependencies {
 
     testImplementation deps.junit
 }
-
